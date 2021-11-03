@@ -4,28 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.androiddz6.databinding.FragmentUserBinding;
+import com.example.androiddz6.xml.UserAdapter;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class UserFragment extends Fragment {
     private FragmentUserBinding binding;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private ViewPager2 pager2;
+    private UserAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,43 +32,40 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Integer> arrayList = new ArrayList<>();
-        arrayList.add(R.drawable.ic_grid);
-        arrayList.add(R.drawable.ic_tags);
-        prepareViewPager();
-    }
 
-    private void prepareViewPager() {
-        ArrayList<Fragment> list = new ArrayList<>();
-        list.add(new PhotoFragment1());
-        list.add(new PhotoFragment2());
-        MainAdapter adapter = new MainAdapter(requireActivity());
-        adapter.setFragments(list);
-        binding.viewPager.setAdapter(adapter);
-    }
+        tabLayout = view.findViewById(R.id.tab_layout);
+        pager2 = view.findViewById(R.id.view_pager);
+
+        FragmentManager fm = getParentFragmentManager();
+        adapter = new UserAdapter(fm,getLifecycle());
+        pager2.setAdapter(adapter);
+
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_grid));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_tags));
 
 
-    private class MainAdapter extends FragmentStateAdapter {
-        private ArrayList<Fragment> fragments = new ArrayList<>();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                pager2.setCurrentItem(tab.getPosition());
+            }
 
-        public void setFragments(ArrayList<Fragment> fragments) {
-            this.fragments = fragments;
-            notifyDataSetChanged();
-        }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-        public MainAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
-        }
+            }
 
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            return fragments.get(position);
-        }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-        @Override
-        public int getItemCount() {
-            return fragments.size();
-        }
+            }
+        });
+
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+            }
+        });
     }
 }
