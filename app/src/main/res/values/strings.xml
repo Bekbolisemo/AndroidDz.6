@@ -1,0 +1,21 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">AndroidDz.6</string>
+    <string name="home">home</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="following">Following</string>
+    <string name="karennne_liked_your_photo">karennne liked your photo. 1h</string>
+    <string name="some_photos">joshua_l The game in Japan was amazing and I want to share some photos</string>
+    <string name="september_19">September 19</string>
+    <string name="jacob_w">jacob_w</string>
+    <string name="jacob_west">Jacob West</string>
+    <string name="digital_goodies_designer_pixsellz">Digital goodies designer @pixsellz</string>
+    <string name="everything_is_designed">Everything is designed.</string>
+    <string name="_54">54</string>
+    <string name="posts">Posts</string>
+    <string name="_834">834</string>
+    <string name="followers">Followers</string>
+    <string name="_162">162</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="todo">TODO</string>
+</resources>
