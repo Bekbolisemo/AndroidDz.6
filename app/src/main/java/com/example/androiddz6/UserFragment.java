@@ -8,46 +8,48 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.androiddz6.databinding.FragmentUserBinding;
-import com.example.androiddz6.xml.UserAdapter;
+import com.example.androiddz6.xml.PageAdapter;
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.PrimitiveIterator;
 
 
 public class UserFragment extends Fragment {
-    private FragmentUserBinding binding;
+    private PageAdapter pageAdapter;
     private TabLayout tabLayout;
-    private ViewPager2 pager2;
-    private UserAdapter adapter;
+    private TabItem tabItem1, tabItem2;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentUserBinding.inflate(LayoutInflater.from(getContext()), container, false);
-        return binding.getRoot();
+        return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        tabLayout = view.findViewById(R.id.tab_layout);
-        pager2 = view.findViewById(R.id.view_pager);
+        tabLayout = (TabLayout)view.findViewById(R.id.tab_layout);
+        tabItem1 = (TabItem)view.findViewById(R.id.tab1);
+        tabItem2 = (TabItem)view.findViewById(R.id.tab2);
+        viewPager = (ViewPager)view.findViewById(R.id.vpager);
 
-        FragmentManager fm = getParentFragmentManager();
-        adapter = new UserAdapter(fm,getLifecycle());
-        pager2.setAdapter(adapter);
+        pageAdapter = new PageAdapter(getParentFragmentManager(),tabLayout.getTabCount());
+        viewPager.setAdapter(pageAdapter);
 
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_grid));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_tags));
-
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                pager2.setCurrentItem(tab.getPosition());
+                viewPager.setCurrentItem(tab.getPosition());
+
+
+                if (tab.getPosition()==0 || tab.getPosition() ==1)
+                    pageAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -60,12 +62,8 @@ public class UserFragment extends Fragment {
 
             }
         });
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
     }
 }
+
