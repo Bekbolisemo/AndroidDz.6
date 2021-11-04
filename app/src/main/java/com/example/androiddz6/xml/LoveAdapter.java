@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androiddz6.Model.ModelLoveFragment;
 import com.example.androiddz6.R;
+import com.example.androiddz6.databinding.ItemRecyclerViewFLoveBinding;
 
 import java.util.ArrayList;
 
@@ -25,8 +26,7 @@ public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_f_love,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(ItemRecyclerViewFLoveBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
     }
 
     @Override
@@ -40,18 +40,16 @@ public class LoveAdapter extends RecyclerView.Adapter<LoveAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mainImage,secondImage;
-        private TextView title;
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mainImage = itemView.findViewById(R.id.image_love);
-            secondImage = itemView.findViewById(R.id.image_love_second);
-            title = itemView.findViewById(R.id.title_love);
+        private ItemRecyclerViewFLoveBinding binding;
+
+        public ViewHolder( @NonNull ItemRecyclerViewFLoveBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
         public void bind(ModelLoveFragment modelLoveFragment){
-            mainImage.setImageResource(modelLoveFragment.getMainImage());;
-            secondImage.setImageResource(modelLoveFragment.getSecondImage());
-            title.setText(modelLoveFragment.getTitle());
+            binding.imageLove.setImageResource(modelLoveFragment.getMainImage());;
+            binding.imageLoveSecond.setImageResource(modelLoveFragment.getSecondImage());
+            binding.titleLove.setText(modelLoveFragment.getTitle());
         }
     }
 

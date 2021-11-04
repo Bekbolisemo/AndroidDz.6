@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androiddz6.Model.ModelPhoto;
 import com.example.androiddz6.R;
+import com.example.androiddz6.databinding.ItemRecyclerViewPhotoBinding;
 
 import java.util.ArrayList;
 
@@ -23,8 +24,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view_photo,parent,false);
-        return new ViewHolder(view);
+        return new ViewHolder(ItemRecyclerViewPhotoBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false));
     }
 
     @Override
@@ -38,14 +38,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
+        private ItemRecyclerViewPhotoBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            imageView = itemView.findViewById(R.id.image_photo);
+        public ViewHolder(@NonNull ItemRecyclerViewPhotoBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
         public void bind(ModelPhoto modelPhoto){
-            imageView.setImageResource(modelPhoto.getImageView());
+            binding.imagePhoto.setImageResource(modelPhoto.getImageView());
         }
     }
 }

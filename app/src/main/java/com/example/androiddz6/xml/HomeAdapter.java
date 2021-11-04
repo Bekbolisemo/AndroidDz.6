@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androiddz6.Model.ModelHomeFragment;
 import com.example.androiddz6.R;
+import com.example.androiddz6.databinding.ItemRecyclerViewBinding;
 
 import java.util.ArrayList;
 
@@ -26,8 +27,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recycler_view, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
@@ -41,20 +41,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, time;
-        private ImageView imageView;
+        private ItemRecyclerViewBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.text_title);
-            time = itemView.findViewById(R.id.time);
-            imageView = itemView.findViewById(R.id.image_view);
+        public ViewHolder(@NonNull ItemRecyclerViewBinding itemView) {
+            super(itemView.getRoot());
+            binding = itemView;
         }
 
         public void bind(ModelHomeFragment modelHomeFragment) {
-            imageView.setImageResource(modelHomeFragment.getImageView());
-            time.setText(modelHomeFragment.getTime());
-            title.setText(modelHomeFragment.getTitle());
+            binding.imageView.setImageResource(modelHomeFragment.getImageView());
+            binding.time.setText(modelHomeFragment.getTime());
+            binding.textTitle.setText(modelHomeFragment.getTitle());
         }
     }
 }
